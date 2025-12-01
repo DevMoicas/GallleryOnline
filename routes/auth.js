@@ -26,9 +26,14 @@ router.post('/login', async (req, res) => {
         }
 
         // Generate JWT token
+        const secret = process.env.JWT_SECRET || 'fallback_secret_key_12345';
+        if (!process.env.JWT_SECRET) {
+            console.warn('⚠️ WARNING: Using fallback JWT secret. Please set JWT_SECRET environment variable.');
+        }
+
         const token = jwt.sign(
             { userId: FIXED_USER.id },
-            process.env.JWT_SECRET,
+            secret,
             { expiresIn: '30d' }
         );
 

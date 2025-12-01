@@ -29,4 +29,12 @@ app.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);
     console.log(`📸 Gallery Online - Ready to use!`);
     console.log(`👤 Login with: LizMoises2025 / nuestrosrecuerdos`);
+
+    // Check environment variables
+    if (!process.env.JWT_SECRET) {
+        console.warn('⚠️  WARNING: JWT_SECRET is not set. Using fallback secret (NOT SECURE for production).');
+    }
+    if (!process.env.GEMINI_API_KEY) {
+        console.warn('⚠️  WARNING: GEMINI_API_KEY is not set. AI features will not work.');
+    }
 });

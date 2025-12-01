@@ -3,11 +3,17 @@ const router = express.Router();
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 // Initialize Gemini AI
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+let genAI = null;
+if (process.env.GEMINI_API_KEY) {
+    genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+}
 
 // Generate romantic phrase
 router.get('/phrase', async (req, res) => {
     try {
+        if (!genAI) {
+            throw new Error('Gemini API key not configured');
+        }
         const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
 
         const prompt = `Genera una frase linda y romántica pero con un toque amistoso, que no parezca de pareja de novios. 
